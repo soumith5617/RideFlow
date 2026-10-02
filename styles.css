@@ -1,0 +1,2332 @@
+/* ==========================================================================
+   RideFlow — Apple Human Interface Guidelines (HIG) Design System
+   Fullscreen Edge-to-Edge Canvas Map, Frosted Glass Floating Islands,
+   San Francisco Typography, iOS Segmented Controls, & Dynamic Island HUD
+   ========================================================================== */
+
+:root {
+  /* Mobility Design Palette: Electric Yellow & Jet Black + Apple HIG Glass */
+  --apple-canvas: #F8F9FA;
+  --apple-glass: rgba(255, 255, 255, 0.92);
+  --apple-glass-heavy: rgba(255, 255, 255, 0.98);
+  --apple-glass-subtle: rgba(255, 255, 255, 0.75);
+  --apple-border: rgba(255, 255, 255, 0.85);
+  --apple-hairline: rgba(0, 0, 0, 0.08);
+
+  /* Signature Yellow & Black Brand Identity */
+  --brand-yellow: #FFD200;
+  --brand-yellow-hover: #F5B800;
+  --brand-yellow-subtle: #FFFDF0;
+  --brand-yellow-border: #FFE566;
+  --brand-black: #121212;
+  --brand-black-subtle: #242426;
+
+  /* Apple System Ink Colors */
+  --apple-ink: #121212;
+  --apple-ink-secondary: #6B7280;
+  --apple-ink-tertiary: #9CA3AF;
+  --apple-fill: #F3F4F6;
+  --apple-fill-secondary: #E5E7EB;
+
+  /* Semantic Accents */
+  --apple-blue: #1A73E8;
+  --apple-blue-hover: #1557B0;
+  --apple-green: #00A859;
+  --apple-green-subtle: #E8F8EE;
+  --apple-red: #EA4335;
+  --apple-red-subtle: #FEECEB;
+  --apple-orange: #FF9500;
+  --apple-purple: #7C3AED;
+  --apple-dark: #121212;
+
+  /* Apple Spatial & Squircle Curves */
+  --radius-apple-xs: 8px;
+  --radius-apple-sm: 12px;
+  --radius-apple-md: 18px;
+  --radius-apple-lg: 24px;
+  --radius-apple-xl: 30px;
+  --radius-pill: 9999px;
+
+  /* Soft Depth Shadows */
+  --shadow-apple-subtle: 0 2px 10px rgba(0, 0, 0, 0.04);
+  --shadow-apple-card: 0 16px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-apple-island: 0 20px 50px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-apple-modal: 0 30px 80px rgba(0, 0, 0, 0.22), 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-brand-glow: 0 6px 20px rgba(255, 210, 0, 0.45);
+
+  --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Inter", sans-serif;
+}
+
+/* Base Reset & Core Viewport */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--apple-canvas);
+  color: var(--apple-ink);
+  font-family: var(--font-apple);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-apple);
+  font-weight: 700;
+  color: var(--apple-ink);
+  letter-spacing: -0.025em;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* ==========================================================================
+   Edge-to-Edge Fullscreen Map Canvas
+   ========================================================================== */
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Persistent Google Map Canvas */
+#google-map, #apple-map, .map-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background: #E5E3DF; /* Google Maps signature canvas background tone */
+}
+
+.leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  background: #E5E3DF !important;
+  font-family: inherit;
+}
+
+.leaflet-tile {
+  visibility: inherit !important;
+}
+
+/* Non-blocking Floating UI Overlay */
+#app-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+#app-overlay > * {
+  pointer-events: auto;
+}
+
+.apple-app-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   Apple Dynamic Island (Top Center Floating HUD)
+   ========================================================================== */
+
+.dynamic-island-wrapper {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--apple-dark);
+  color: #FFFFFF;
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-apple-island);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  max-width: 90vw;
+}
+
+.dynamic-island-wrapper:hover {
+  transform: translateX(-50%) scale(1.02);
+}
+
+.dynamic-island-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--apple-green);
+  box-shadow: 0 0 10px var(--apple-green);
+}
+
+.dynamic-island-dot.pulsing {
+  animation: applePulse 1.8s infinite;
+}
+
+@keyframes applePulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* ==========================================================================
+   Apple Top-Right Segmented Control & Status Bar
+   ========================================================================== */
+
+.top-right-controls {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+/* iOS Segmented Pill */
+.ios-segmented-control {
+  background: var(--apple-glass);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid var(--apple-hairline);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-apple-subtle);
+  display: flex;
+  gap: 3px;
+}
+
+/* iOS Icon Button Dock Group */
+.ios-icon-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--apple-glass);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid var(--apple-hairline);
+  padding: 3px 6px;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-apple-subtle);
+}
+
+.ios-icon-group .ios-icon-button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  width: 34px;
+  height: 34px;
+}
+
+.ios-icon-group .ios-icon-button:hover {
+  background: rgba(0, 0, 0, 0.06);
+  transform: scale(1.08);
+}
+
+.ios-segment-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--apple-ink-secondary);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ios-segment-btn.active {
+  background: #FFFFFF;
+  color: var(--apple-ink);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ios-icon-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--apple-glass);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid var(--apple-hairline);
+  box-shadow: var(--shadow-apple-subtle);
+  display: grid;
+  place-items: center;
+  color: var(--apple-ink);
+  font-size: 15px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.ios-icon-button:hover {
+  background: #FFFFFF;
+  transform: scale(1.05);
+}
+
+.badge-unread-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--apple-red);
+}
+
+/* ==========================================================================
+   Apple Floating Command Island (Left Card)
+   ========================================================================== */
+
+.apple-floating-card {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  bottom: 24px;
+  width: 440px;
+  max-width: calc(100vw - 48px);
+  z-index: 990;
+  background: var(--apple-glass);
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  border: 1px solid var(--apple-border);
+  border-radius: var(--radius-apple-xl);
+  box-shadow: var(--shadow-apple-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-card-header {
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--apple-hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apple-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--apple-ink);
+}
+
+.apple-card-sub {
+  font-size: 12px;
+  color: var(--apple-ink-secondary);
+  margin-top: 2px;
+}
+
+.apple-card-body {
+  padding: 20px 24px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Custom Sleek Scrollbar */
+.apple-card-body::-webkit-scrollbar {
+  width: 5px;
+}
+.apple-card-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+}
+
+/* ==========================================================================
+   Apple Search & Location Inputs
+   ========================================================================== */
+
+.apple-search-box {
+  background: #FFFFFF;
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-md);
+  padding: 6px 14px;
+  box-shadow: var(--shadow-apple-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.apple-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  position: relative;
+}
+
+.apple-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.apple-dot.green { background: var(--apple-green); }
+.apple-dot.red { background: var(--apple-red); }
+
+.apple-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--apple-ink);
+  outline: none;
+}
+
+.apple-input::placeholder {
+  color: var(--apple-ink-tertiary);
+  font-weight: 400;
+}
+
+.apple-divider {
+  height: 1px;
+  background: var(--apple-fill-secondary);
+  margin-left: 20px;
+}
+
+/* Google Maps Style Autocomplete & Search Enhancements */
+.apple-autocomplete-box {
+  position: absolute;
+  top: 100%;
+  left: -8px;
+  right: -8px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-apple-md);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 1100;
+  max-height: 290px;
+  overflow-y: auto;
+  margin-top: 8px;
+  overscroll-behavior: contain;
+}
+
+.apple-autocomplete-box::-webkit-scrollbar {
+  width: 5px;
+}
+.apple-autocomplete-box::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+}
+
+.apple-autocomplete-header {
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--apple-ink-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--apple-fill);
+  border-bottom: 1px solid var(--apple-hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.apple-autocomplete-item {
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--apple-hairline);
+  transition: all 0.15s ease;
+}
+
+.apple-autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.apple-autocomplete-item:hover,
+.apple-autocomplete-item.highlighted {
+  background: #F8FAFC;
+  border-left: 3px solid #1A73E8;
+  padding-left: 11px;
+}
+
+.gmaps-place-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--apple-fill);
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  border: 1px solid var(--apple-hairline);
+  transition: all 0.15s ease;
+}
+
+.apple-autocomplete-item.highlighted .gmaps-place-badge,
+.apple-autocomplete-item:hover .gmaps-place-badge {
+  background: #E8F0FE;
+  border-color: #C2E7FF;
+}
+
+.apple-input-clear-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--apple-ink-secondary);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.apple-input-clear-btn:hover {
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--apple-ink);
+  transform: scale(1.1);
+}
+
+/* Apple Siri / Fast Shortcuts */
+.apple-shortcuts-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.apple-chip {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: #FFFFFF;
+  border: 1px solid var(--apple-hairline);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--apple-ink);
+  white-space: nowrap;
+  box-shadow: var(--shadow-apple-subtle);
+  transition: all 0.15s ease;
+}
+
+.apple-chip:hover {
+  background: var(--apple-fill);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Apple Vehicle Selection Cards
+   ========================================================================== */
+
+.apple-vehicle-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.apple-vehicle-card {
+  background: #FFFFFF;
+  border: 1.5px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-vehicle-card:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  background: #FAFAFA;
+}
+
+.apple-vehicle-card.selected {
+  border-color: var(--brand-yellow);
+  background: var(--brand-yellow-subtle);
+  box-shadow: 0 4px 18px rgba(255, 210, 0, 0.28);
+}
+
+.apple-vehicle-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.apple-vehicle-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-apple-sm);
+  background: var(--apple-fill);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.apple-vehicle-name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--apple-ink);
+}
+
+.apple-vehicle-desc {
+  font-size: 12px;
+  color: var(--apple-ink-secondary);
+  margin-top: 1px;
+}
+
+.apple-vehicle-price {
+  font-size: 16.5px;
+  font-weight: 800;
+  color: var(--apple-ink);
+  text-align: right;
+}
+
+/* Quick Header Action Buttons (Swap & GPS) */
+.btn-header-action {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 750;
+  border-radius: var(--radius-pill);
+  background: #FFFFFF;
+  border: 1px solid var(--apple-hairline);
+  color: var(--apple-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: var(--shadow-apple-subtle);
+  transition: all 0.15s ease;
+}
+
+.btn-header-action:hover {
+  background: var(--apple-fill);
+  border-color: rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Buttons & Interactive Controls (Electric Yellow & Jet Black)
+   ========================================================================== */
+
+.btn-apple-primary {
+  width: 100%;
+  height: 52px;
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+  border-radius: var(--radius-apple-md);
+  font-size: 15px;
+  font-weight: 850;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--shadow-brand-glow);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-apple-primary:hover {
+  background: var(--brand-yellow-hover);
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 24px rgba(255, 210, 0, 0.55);
+}
+
+.btn-apple-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-brand-black {
+  width: 100%;
+  height: 48px;
+  background: var(--brand-black);
+  color: #FFFFFF;
+  border-radius: var(--radius-apple-md);
+  font-size: 14px;
+  font-weight: 750;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-brand-black:hover {
+  background: #27272A;
+  transform: translateY(-1px);
+}
+
+.btn-apple-secondary {
+  height: 42px;
+  background: #FFFFFF;
+  color: var(--apple-ink);
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-sm);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.btn-apple-secondary:hover {
+  background: var(--apple-fill);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+/* 4-Digit Security OTP Badge (Electric Yellow & Jet Black) */
+.apple-otp-banner {
+  background: var(--brand-yellow-subtle);
+  border: 1.5px solid var(--brand-yellow);
+  border-radius: var(--radius-apple-md);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 16px rgba(255, 210, 0, 0.2);
+}
+
+.apple-otp-code {
+  font-family: var(--font-apple);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  color: var(--brand-black);
+  background: var(--brand-yellow);
+  padding: 4px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Captain Card & Badges */
+.captain-badge-helmet {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+  font-size: 10.5px;
+  font-weight: 750;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+}
+
+.captain-actions-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.captain-action-btn {
+  flex: 1;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-sm);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--apple-ink);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.captain-action-btn:hover {
+  background: var(--apple-fill);
+  border-color: #121212;
+}
+
+/* Tip Captain Buttons */
+.tip-chips-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.tip-chip {
+  flex: 1;
+  padding: 8px 4px;
+  text-align: center;
+  background: #FFFFFF;
+  border: 1.5px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-sm);
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--brand-black);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tip-chip:hover, .tip-chip.active {
+  border-color: var(--brand-yellow);
+  background: var(--brand-yellow-subtle);
+  color: #B45309;
+}
+
+/* Parcel Delivery Styles */
+.parcel-weight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.parcel-weight-card {
+  padding: 10px 8px;
+  text-align: center;
+  background: #FFFFFF;
+  border: 1.5px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.parcel-weight-card.selected {
+  border-color: var(--brand-yellow);
+  background: var(--brand-yellow-subtle);
+  box-shadow: 0 2px 8px rgba(255, 210, 0, 0.25);
+}
+
+/* Power Pass Banner */
+.power-pass-card {
+  background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+  border: 1.5px solid #FCD34D;
+  border-radius: var(--radius-apple-md);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 14px rgba(251, 191, 36, 0.2);
+}
+
+/* ==========================================================================
+   Floating Map Navigation Controls (Bottom Right)
+   ========================================================================== */
+
+.apple-map-controls {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.apple-map-layer-pills {
+  position: absolute;
+  bottom: 24px;
+  left: 480px;
+  z-index: 1000;
+  display: flex;
+  gap: 6px;
+  background: var(--apple-glass);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--apple-hairline);
+  box-shadow: var(--shadow-apple-subtle);
+}
+
+.apple-layer-btn {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--apple-ink-secondary);
+  transition: all 0.15s ease;
+}
+
+.apple-layer-btn.active {
+  background: var(--apple-dark);
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Google Maps Signature Markers & Beacons
+   ========================================================================== */
+
+.leaflet-div-icon {
+  background: transparent;
+  border: none;
+}
+
+/* Google Maps Iconic Red Teardrop Destination Pin */
+.google-dest-pin {
+  width: 34px;
+  height: 46px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+  cursor: grab;
+  transition: transform 0.15s ease;
+}
+
+.google-dest-pin:active {
+  cursor: grabbing;
+  transform: scale(1.1) translateY(-4px);
+}
+
+/* Google Maps Blue Pulse Location Beacon */
+.google-pickup-beacon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.google-pickup-beacon:active {
+  cursor: grabbing;
+}
+
+.google-beacon-pulse {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(26, 115, 232, 0.3);
+  animation: googleBeaconPulse 2s infinite ease-out;
+}
+
+.google-beacon-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #1A73E8;
+  border: 2.5px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes googleBeaconPulse {
+  0% { transform: scale(0.5); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Google Navigation Vehicle Puck */
+.google-vehicle-puck {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px solid #1A73E8;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.google-vehicle-heading-arrow {
+  position: absolute;
+  top: -8px;
+  color: #1A73E8;
+  font-size: 11px;
+  font-weight: 900;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.apple-marker-pin {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  border: 3px solid #FFFFFF;
+  position: relative;
+}
+
+.apple-marker-pin.pickup { background: var(--apple-green); }
+.apple-marker-pin.dest { background: var(--apple-red); }
+
+.apple-moving-vehicle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2px solid var(--apple-dark);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  transition: transform 0.4s ease;
+}
+
+/* ==========================================================================
+   Modal Dialogs & Toasts
+   ========================================================================== */
+
+.apple-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+.apple-modal-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-apple-xl);
+  box-shadow: var(--shadow-apple-modal);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-modal-head {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--apple-hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.apple-modal-body {
+  padding: 24px;
+  flex: 1;
+}
+
+.apple-modal-foot {
+  padding: 16px 24px;
+  border-top: 1px solid var(--apple-hairline);
+  background: var(--apple-fill);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Apple Toast Notifications */
+#toast-root {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.apple-toast {
+  pointer-events: auto;
+  background: rgba(29, 29, 31, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #FFFFFF;
+  border-radius: var(--radius-pill);
+  padding: 11px 22px;
+  box-shadow: var(--shadow-apple-island);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes toastIn { from { opacity: 0; transform: translateY(14px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+/* Responsive adjustments */
+@media (max-width: 860px) {
+  .apple-floating-card {
+    top: auto;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    max-width: none;
+    max-height: 55vh;
+  }
+  .apple-map-layer-pills {
+    left: 16px;
+    bottom: 58vh;
+  }
+  .top-right-controls {
+    right: 12px;
+  }
+}
+
+/* ==========================================================================
+   Apple HIG Badges & Status Indicators
+   ========================================================================== */
+
+.apple-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.apple-badge.success { background: #E8F8EE; color: #1D833E; }
+.apple-badge.info { background: #E8F2FD; color: #0071E3; }
+.apple-badge.warning { background: #FFF7E6; color: #B25900; }
+.apple-badge.danger { background: #FEECEB; color: #D70015; }
+.apple-badge.purple { background: #F5EDFA; color: #8944AB; }
+.apple-badge.neutral { background: var(--apple-fill); color: var(--apple-ink-secondary); }
+
+/* iOS-Style Toggle Switch */
+.apple-switch-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.apple-switch {
+  position: relative;
+  width: 51px;
+  height: 31px;
+  background: var(--apple-fill-secondary);
+  border-radius: var(--radius-pill);
+  transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-switch.active {
+  background: var(--apple-green);
+}
+
+.apple-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-switch.active .apple-switch-thumb {
+  transform: translateX(20px);
+}
+
+/* Apple KPI Analytics Cards */
+.apple-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.apple-kpi-card {
+  background: #FFFFFF;
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-apple-subtle);
+}
+
+.apple-kpi-val {
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  color: var(--apple-ink);
+  line-height: 1.2;
+}
+
+.apple-kpi-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--apple-ink-secondary);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Apple Turn-by-Turn Banner */
+.apple-turn-banner {
+  background: var(--apple-dark);
+  color: #FFFFFF;
+  border-radius: var(--radius-apple-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-apple-card);
+}
+
+.apple-turn-text {
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.apple-turn-sub {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+/* Apple Driver Profile Banner */
+.apple-driver-card {
+  background: #FFFFFF;
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-apple-subtle);
+}
+
+.apple-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--apple-fill-secondary);
+  color: var(--apple-ink);
+  font-weight: 800;
+  font-size: 15px;
+  display: grid;
+  place-items: center;
+}
+
+/* Apple Tables for Rides Governance & Shifts */
+.apple-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-md);
+  background: #FFFFFF;
+}
+
+.apple-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  text-align: left;
+}
+
+.apple-table th {
+  padding: 10px 14px;
+  background: var(--apple-fill);
+  color: var(--apple-ink-secondary);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--apple-hairline);
+}
+
+.apple-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--apple-hairline);
+  color: var(--apple-ink);
+}
+
+.apple-table tr:last-child td {
+  border-bottom: none;
+}
+
+.apple-table tr:hover td {
+  background: #FAFAFA;
+}
+
+/* Apple Fare Breakdown Box */
+.apple-fare-summary {
+  background: var(--apple-fill);
+  border-radius: var(--radius-apple-md);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+}
+
+.apple-fare-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--apple-ink-secondary);
+}
+
+.apple-fare-row.total {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--apple-ink);
+  border-top: 1px solid var(--apple-hairline);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+/* Apple Modal Clean Form Inputs */
+.apple-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.apple-form-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--apple-ink-secondary);
+  letter-spacing: 0.02em;
+}
+
+.apple-form-input {
+  height: 44px;
+  background: var(--apple-fill);
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-sm);
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--apple-ink);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.apple-form-input:focus {
+  background: #FFFFFF;
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+}
+
+/* Apple Auth Hero Screen */
+.apple-auth-canvas {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 30%, #FFFFFF 0%, #F5F5F7 100%);
+  overflow: hidden;
+}
+
+.apple-auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--apple-glass);
+  backdrop-filter: blur(36px) saturate(190%);
+  -webkit-backdrop-filter: blur(36px) saturate(190%);
+  border: 1px solid var(--apple-border);
+  border-radius: var(--radius-apple-xl);
+  box-shadow: var(--shadow-apple-card);
+  padding: 36px 32px;
+  z-index: 10;
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   Gemini AI Smart Mobility Copilot Styles
+   ========================================================================== */
+
+.btn-gemini-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 245, 255, 0.9));
+  border: 1.5px solid rgba(138, 75, 255, 0.35);
+  box-shadow: 0 2px 10px rgba(138, 75, 255, 0.15), var(--shadow-apple-sm);
+  color: #5B21B6;
+  font-weight: 750;
+  font-size: 13px;
+  padding: 0 14px;
+  height: 38px;
+  border-radius: var(--radius-apple-pill);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.btn-gemini-ai:hover {
+  transform: translateY(-1.5px) scale(1.02);
+  border-color: rgba(138, 75, 255, 0.7);
+  box-shadow: 0 4px 18px rgba(138, 75, 255, 0.25);
+  color: #4C1D95;
+}
+
+.gemini-sparkle-icon {
+  display: inline-block;
+  background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 15px;
+}
+
+.gemini-chat-box {
+  display: flex;
+  flex-direction: column;
+  height: 380px;
+  max-height: 55vh;
+  overflow-y: auto;
+  gap: 12px;
+  padding: 8px 4px 16px;
+  scroll-behavior: smooth;
+}
+
+.gemini-msg {
+  display: flex;
+  gap: 10px;
+  animation: fadeIn 0.25s ease;
+}
+
+.gemini-msg.user {
+  flex-direction: row-reverse;
+}
+
+.gemini-avatar-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 14px;
+  box-shadow: var(--shadow-apple-sm);
+}
+
+.gemini-msg.ai .gemini-avatar-badge {
+  background: linear-gradient(135deg, #8B5CF6, #2563EB);
+  color: #FFFFFF;
+}
+
+.gemini-msg.user .gemini-avatar-badge {
+  background: var(--apple-ink);
+  color: #FFFFFF;
+}
+
+.gemini-bubble {
+  max-width: 82%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.gemini-msg.ai .gemini-bubble {
+  background: var(--apple-fill);
+  color: var(--apple-ink);
+  border: 1px solid var(--apple-hairline);
+  border-top-left-radius: 4px;
+}
+
+.gemini-msg.user .gemini-bubble {
+  background: linear-gradient(135deg, #1A73E8, #0056D2);
+  color: #FFFFFF;
+  border-top-right-radius: 4px;
+}
+
+.gemini-prompt-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px 0 8px;
+  scrollbar-width: none;
+}
+
+.gemini-prompt-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.gemini-prompt-chip {
+  flex-shrink: 0;
+  background: #F3F0FF;
+  border: 1px solid #DDD6FE;
+  color: #6D28D9;
+  font-size: 11.5px;
+  font-weight: 650;
+  padding: 6px 12px;
+  border-radius: var(--radius-apple-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.gemini-prompt-chip:hover {
+  background: #EDE9FE;
+  border-color: #C4B5FD;
+  transform: translateY(-1px);
+}
+
+.gemini-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid var(--apple-hairline);
+  padding-top: 12px;
+  margin-top: 8px;
+}
+
+.gemini-chat-input {
+  flex: 1;
+  height: 42px;
+  background: var(--apple-fill);
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-pill);
+  padding: 0 16px;
+  font-size: 13.5px;
+  color: var(--apple-ink);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.gemini-chat-input:focus {
+  background: #FFFFFF;
+  border-color: #8B5CF6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+.gemini-typing-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.gemini-typing-dots span {
+  width: 6px;
+  height: 6px;
+  background: #8B5CF6;
+  border-radius: 50%;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+
+.gemini-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.gemini-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+  40% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* Gemini Thought Process & Chain-of-Thought Accordion */
+.gemini-thought-box {
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.04));
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  overflow: hidden;
+  font-size: 11.5px;
+  transition: all 0.2s ease;
+}
+
+.gemini-thought-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(139, 92, 246, 0.08);
+  color: #6D28D9;
+  font-weight: 700;
+  list-style: none;
+  font-size: 11px;
+}
+
+.gemini-thought-summary::-webkit-details-marker {
+  display: none;
+}
+
+.gemini-thought-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.gemini-thought-brain {
+  font-size: 13px;
+  display: inline-block;
+  animation: brainPulse 2s infinite ease-in-out;
+}
+
+@keyframes brainPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+.gemini-thought-arrow {
+  font-size: 9px;
+  transition: transform 0.2s ease;
+  color: #8B5CF6;
+}
+
+details[open] > .gemini-thought-summary .gemini-thought-arrow {
+  transform: rotate(180deg);
+}
+
+.gemini-thought-content {
+  padding: 8px 10px;
+  color: #4B5563;
+  line-height: 1.55;
+  background: #FAF8FF;
+  border-top: 1px solid rgba(139, 92, 246, 0.12);
+  font-size: 11px;
+}
+
+.gemini-thought-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.gemini-thought-step:last-child {
+  margin-bottom: 0;
+}
+
+.gemini-thought-step-icon {
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.gemini-response-text {
+  line-height: 1.55;
+  color: var(--apple-ink);
+  font-size: 13px;
+}
+
+.gemini-response-text p {
+  margin: 0 0 6px 0;
+}
+
+.gemini-response-text p:last-child {
+  margin-bottom: 0;
+}
+
+.gemini-response-text strong {
+  color: #111827;
+  font-weight: 700;
+}
+
+.gemini-response-text ul {
+  margin: 4px 0 6px 16px;
+  padding: 0;
+}
+
+.gemini-response-text li {
+  margin-bottom: 3px;
+}
+
+.gemini-response-text table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 6px 0;
+  font-size: 11.5px;
+}
+
+.gemini-response-text th, .gemini-response-text td {
+  padding: 4px 8px;
+  border: 1px solid var(--apple-hairline);
+  text-align: left;
+}
+
+.gemini-response-text th {
+  background: rgba(139, 92, 246, 0.08);
+  color: #5B21B6;
+  font-weight: 700;
+}
+
+.gemini-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(139, 92, 246, 0.2);
+}
+
+.gemini-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #FFFFFF;
+  border: 1px solid #D8B4FE;
+  padding: 4px 10px;
+  border-radius: var(--radius-apple-pill);
+  font-size: 11px;
+  font-weight: 700;
+  color: #6D28D9;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(109, 40, 217, 0.06);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gemini-action-btn:hover {
+  border-color: #8B5CF6;
+  color: #FFFFFF;
+  background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 8px rgba(109, 40, 217, 0.25);
+}
+
+.gemini-action-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.gemini-thinking-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 2px 0;
+}
+
+.gemini-thinking-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 12px;
+  color: #7C3AED;
+}
+
+.gemini-thinking-step-text {
+  font-size: 11px;
+  color: #6B7280;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+/* ==========================================================================
+   Mobility Platform Components (Service Tabs, Captain Card, Parcel, Power Pass)
+   ========================================================================== */
+
+/* Service Mode Switcher Tabs (Rides, Parcel, Power Pass) */
+.service-tabs-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--apple-fill);
+  border: 1px solid var(--apple-hairline);
+  padding: 4px;
+  border-radius: var(--radius-apple-md);
+  gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.service-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 40px;
+  font-size: 13px;
+  font-weight: 750;
+  border: none;
+  border-radius: var(--radius-apple-sm);
+  background: transparent;
+  color: var(--apple-ink-secondary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.service-tab-btn .tab-icon {
+  font-size: 15px;
+}
+
+.service-tab-btn.active {
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  font-weight: 850;
+}
+
+.service-tab-btn:hover:not(.active) {
+  color: var(--apple-ink);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* Captain Profile Card & Action Grid */
+.captain-profile-card {
+  background: #FFFFFF;
+  border: 1.5px solid var(--brand-yellow-border);
+  border-radius: var(--radius-apple-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-apple-subtle);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.captain-profile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.captain-avatar-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.captain-avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--brand-yellow);
+  color: #121212;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(255, 210, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.captain-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.captain-name {
+  font-size: 15px;
+  color: var(--brand-black);
+  font-weight: 850;
+}
+
+.captain-vehicle-text {
+  font-size: 12px;
+  color: var(--apple-ink-secondary);
+  margin-top: 2px;
+}
+
+.captain-rating-box {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.captain-rating-score {
+  font-weight: 850;
+  color: #B45309;
+  font-size: 14px;
+}
+
+.captain-rating-label {
+  font-size: 10.5px;
+  color: var(--apple-green);
+  font-weight: 700;
+}
+
+.captain-badge-helmet {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 800;
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+/* Captain Direct Action Grid (Call, Chat, SOS) */
+.captain-actions-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--apple-hairline);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.captain-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 38px;
+  font-size: 12px;
+  font-weight: 750;
+  background: var(--apple-fill);
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-sm);
+  color: var(--apple-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.captain-action-btn:hover {
+  background: var(--apple-fill-secondary);
+  border-color: rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.captain-action-btn.sos {
+  color: var(--apple-red);
+}
+
+/* Tip Appreciate Captain Chips (4-Column Equal Grid) */
+.tip-chips-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tip-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  font-size: 12px;
+  font-weight: 750;
+  border: 1px solid var(--apple-hairline);
+  background: #FFFFFF;
+  color: var(--apple-ink);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tip-chip:hover {
+  border-color: var(--brand-yellow-border);
+}
+
+.tip-chip.active {
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+  border-color: var(--brand-yellow);
+  font-weight: 850;
+  box-shadow: 0 2px 6px rgba(255, 210, 0, 0.35);
+}
+
+/* Power Pass Subscription Card */
+.power-pass-card {
+  background: linear-gradient(135deg, #FFFDF0 0%, #FEF3C7 100%);
+  border: 2px solid #FCD34D;
+  border-radius: var(--radius-apple-md);
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(251, 191, 36, 0.2);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Parcel Weight Selection Grid (3-Column Equal Grid) */
+.parcel-weight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.parcel-weight-card {
+  background: #FFFFFF;
+  border: 1.5px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-sm);
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.parcel-weight-card:hover {
+  border-color: var(--brand-yellow-hover);
+  background: var(--brand-yellow-subtle);
+}
+
+.parcel-weight-card.selected {
+  border-color: var(--brand-yellow);
+  background: #FFFDF0;
+  box-shadow: 0 0 0 2px rgba(255, 210, 0, 0.4);
+}
+
+/* ==========================================================================
+   Google Maps Floating Search Bar & Interactive Place Sheets
+   ========================================================================== */
+
+.gmaps-floating-search-container {
+  position: absolute;
+  top: 76px;
+  left: 488px;
+  z-index: 992;
+  width: 440px;
+  max-width: calc(100vw - 520px - 260px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.gmaps-search-pill {
+  background: #FFFFFF;
+  border-radius: var(--radius-pill);
+  padding: 4px 6px 4px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.14), 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gmaps-search-pill:focus-within {
+  box-shadow: 0 8px 30px rgba(26, 115, 232, 0.22), 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-color: #1A73E8;
+}
+
+.gmaps-search-icon {
+  font-size: 16px;
+  color: #1A73E8;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.gmaps-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--apple-ink);
+  outline: none;
+  padding: 6px 0;
+  font-family: inherit;
+}
+
+.gmaps-search-input::placeholder {
+  color: var(--apple-ink-tertiary);
+  font-weight: 400;
+}
+
+.gmaps-search-submit-btn {
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gmaps-search-submit-btn:hover {
+  background: var(--brand-yellow-hover);
+  transform: translateY(-1px);
+}
+
+/* Voice Search Microphone Button */
+.apple-input-mic-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--apple-ink-secondary);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.apple-input-mic-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  transform: scale(1.1);
+  color: #EA4335;
+}
+
+.apple-input-mic-btn.recording {
+  background: #FEE2E2 !important;
+  color: #DC2626 !important;
+  animation: gmapsMicPulse 1.2s infinite;
+}
+
+@keyframes gmapsMicPulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+/* Quick Category Discovery Chips */
+.gmaps-category-chips-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 2px;
+  scrollbar-width: none;
+}
+
+.gmaps-category-chips-row::-webkit-scrollbar {
+  display: none;
+}
+
+.gmaps-quick-chip {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-pill);
+  padding: 5px 12px;
+  font-size: 11.5px;
+  font-weight: 750;
+  color: var(--apple-ink);
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gmaps-quick-chip:hover {
+  background: #FFFFFF;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  border-color: #1A73E8;
+  color: #1A73E8;
+}
+
+/* Floating Google Maps Place Info Sheet / Popover */
+.gmaps-place-sheet-card {
+  position: absolute;
+  bottom: 28px;
+  left: 488px;
+  width: 380px;
+  max-width: calc(100vw - 520px - 40px);
+  background: #FFFFFF;
+  border-radius: var(--radius-apple-lg);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 18px 20px;
+  z-index: 994;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: gmapsSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+@keyframes gmapsSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.gmaps-place-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.gmaps-place-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.gmaps-btn-action {
+  padding: 9px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+}
+
+.gmaps-btn-destination {
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+}
+
+.gmaps-btn-destination:hover {
+  background: var(--brand-yellow-hover);
+  transform: translateY(-1px);
+}
+
+.gmaps-btn-pickup {
+  background: var(--apple-fill);
+  color: var(--apple-ink);
+  border: 1.5px solid var(--apple-hairline);
+}
+
+.gmaps-btn-pickup:hover {
+  background: #FFFFFF;
+  border-color: var(--apple-green);
+  color: var(--apple-green);
+}
+
+/* Saved Places Shortcuts Row */
+.saved-places-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--apple-hairline);
+  background: #FAFAFA;
+}
+
+.saved-place-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: #FFFFFF;
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--radius-apple-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.saved-place-chip:hover {
+  border-color: #1A73E8;
+  background: #F0F7FF;
+}
+
+.recent-search-del-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--apple-ink-tertiary);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.recent-search-del-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--apple-ink);
+}
+
+/* Responsive Overrides for Google Maps Search */
+@media (max-width: 860px) {
+  .gmaps-floating-search-container {
+    top: 72px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: none;
+  }
+  
+  .gmaps-place-sheet-card {
+    left: 12px;
+    right: 12px;
+    bottom: calc(55vh + 24px);
+    width: auto;
+    max-width: none;
+  }
+}
